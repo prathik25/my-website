@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Your Name</title>
+<meta name="description" content="Personal site of Your Name: publications, articles, open-source projects and activities.">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,600;0,700;1,400&family=Public+Sans:wght@400;500;600&display=swap">
+<style>
+:root{--bg:#f6f7f4;--ink:#1d2b2a;--muted:#5d6b69;--line:#d5dbd6;--accent:#0f6b63;--chip:#e4ebe6;
+--serif:'Spectral',Georgia,'Times New Roman',serif;--sans:'Public Sans',system-ui,-apple-system,'Segoe UI',sans-serif}
+@media (prefers-color-scheme:dark){:root{--bg:#121a19;--ink:#e6ede9;--muted:#9bb0ac;--line:#2b3a38;--accent:#5fc9bd;--chip:#1e2b29}}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 1rem/1.6 var(--sans)}
+a{color:var(--accent);text-underline-offset:3px}
+a:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.wrap{max-width:52rem;margin:0 auto;padding:0 1.25rem 4rem}
+nav{display:flex;flex-wrap:wrap;gap:1.2rem;padding:1.2rem 0;font-size:.95rem;border-bottom:1px solid var(--line)}
+nav a{text-decoration:none;color:var(--ink);font-weight:500}
+nav a:hover{color:var(--accent)}
+.hero{display:flex;gap:1.75rem;align-items:center;padding:3rem 0 2.5rem;flex-wrap:wrap}
+.hero img{width:9rem;height:9rem;border-radius:50%;object-fit:cover;background:var(--chip)}
+.hero div{flex:1 1 20rem}
+h1{font:700 clamp(2.2rem,6vw,3.4rem)/1.1 var(--serif);margin:0 0 .5rem;letter-spacing:-.01em}
+.tagline{font:400 1.2rem/1.5 var(--serif);color:var(--muted);margin:0 0 1rem}
+.links{display:flex;flex-wrap:wrap;gap:1.1rem;font-size:.95rem}
+section{padding:2.25rem 0;border-top:1px solid var(--line)}
+h2{font:700 1.7rem/1.2 var(--serif);margin:0 0 1.25rem;color:var(--accent)}
+.about p{max-width:40rem;margin:0 0 1rem;font:400 1.08rem/1.7 var(--serif)}
+.item{margin-bottom:1.4rem}
+.item:last-child{margin-bottom:0}
+.item h3{font:600 1.15rem/1.35 var(--serif);margin:0 0 .15rem}
+.sub{margin:0;font-size:.92rem;color:var(--muted)}
+.desc{margin:.3rem 0 0;font-size:.97rem;max-width:40rem}
+.tag{display:inline-block;background:var(--chip);padding:.05rem .6rem;border-radius:99px;font-size:.82rem;color:var(--muted)}
+.stats{display:flex;gap:1.5rem;flex-wrap:wrap;margin:0 0 1.5rem;font-size:.95rem;color:var(--muted)}
+.stats b{color:var(--ink);font:700 1.3rem var(--serif);margin-right:.25rem}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(15rem,1fr));gap:1rem}
+.repo{border:1px solid var(--line);border-radius:8px;padding:1rem}
+.repo h3{font:600 1.05rem var(--sans);margin:0 0 .3rem;word-break:break-word}
+.repo p{margin:0 0 .6rem;font-size:.9rem;color:var(--muted)}
+.note{color:var(--muted);font-size:.9rem}
+footer{border-top:1px solid var(--line);padding-top:1rem;color:var(--muted);font-size:.85rem}
+</style>
+</head>
+<body>
+<div class="wrap">
+<nav aria-label="Sections">
+  <a href="#about">About</a><a href="#publications">Publications</a><a href="#articles">Articles</a>
+  <a href="#github">GitHub</a><a href="#activities">Activities</a><a href="#contact">Contact</a>
+</nav>
+
+<header class="hero">
+  <img id="photo" src="photo.jpg" alt="Portrait of Your Name" onerror="this.style.visibility='hidden'">
+  <div>
+    <h1 id="name"></h1>
+    <p class="tagline" id="tagline"></p>
+    <div class="links" id="topLinks"></div>
+  </div>
+</header>
+
+<main>
+  <section id="about" class="about"><h2>About</h2><div id="aboutText"></div></section>
+  <section id="publications"><h2>Publications</h2><div id="pubs"></div></section>
+  <section id="articles"><h2>Articles on Medium</h2><div id="arts"></div></section>
+  <section id="github"><h2>GitHub</h2><div id="ghStats" class="stats"></div><div id="ghRepos" class="grid"></div><p class="note" id="ghNote"></p></section>
+  <section id="activities"><h2>Activities beyond work</h2><div id="acts"></div></section>
+  <section id="contact"><h2>Contact</h2><p id="contactText"></p></section>
+</main>
+<footer>© <span id="yr"></span> <span id="foot"></span></footer>
+</div>
+
+<script>
+// ================= EDIT EVERYTHING BELOW =================
+var ME = {
+  name: "Your Name",
+  tagline: "Your role or field, and one line on what you care about.",
+  email: "you@example.com",
+  location: "City, Country",
+  github: "your-github-username",      // used to load your repos automatically
+  medium: "https://medium.com/@your-handle",
+  linkedin: "https://www.linkedin.com/in/your-handle",
+  about: [
+    "Write a short paragraph about who you are, your background and what you work on.",
+    "Add a second paragraph about your interests, goals or what you are looking for."
+  ]
+};
+
+var PUBLICATIONS = [
+  { title: "Sample journal article title", authors: "Your Name, Co-Author One", venue: "Journal of Example Studies, 12(3)", year: 2025, url: "https://doi.org/" },
+  { title: "Sample conference paper", authors: "Co-Author One, Your Name", venue: "Proceedings of the Example Conference", year: 2024, url: "#" }
+];
+
+var ARTICLES = [   // copy the title, link and date from each Medium post
+  { title: "Sample Medium article title", url: "https://medium.com/@your-handle/sample", date: "2025-06-01", summary: "One sentence on what the article covers." },
+  { title: "Another article title", url: "https://medium.com/@your-handle/another", date: "2025-02-14", summary: "One sentence on what the article covers." }
+];
+
+var ACTIVITIES = [
+  { title: "Volunteer, Example Organization", period: "2023 – present", desc: "What you do and what you have achieved there." },
+  { title: "Captain, Example Sports Club", period: "2021 – 2023", desc: "Teams led, events organised, results." },
+  { title: "Hobby or interest", period: "Ongoing", desc: "Photography, chess, hiking, music: whatever you want people to know." }
+];
+
+var FEATURED_REPOS = []; // optional: e.g. ["repo-one","repo-two"]; leave empty to show your top starred repos
+// ================= END OF EDITABLE PART =================
+
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+function $(id){return document.getElementById(id)}
+function fmt(d){return new Date(d).toLocaleDateString('en',{year:'numeric',month:'short',day:'numeric'})}
+
+document.title = ME.name;
+$('name').textContent = ME.name;
+$('tagline').textContent = ME.tagline;
+$('photo').alt = 'Portrait of ' + ME.name;
+$('yr').textContent = new Date().getFullYear();
+$('foot').textContent = ME.name;
+$('topLinks').innerHTML =
+  '<a href="https://github.com/'+esc(ME.github)+'">GitHub</a><a href="'+esc(ME.medium)+'">Medium</a><a href="'+esc(ME.linkedin)+'">LinkedIn</a><a href="mailto:'+esc(ME.email)+'">Email</a>';
+$('aboutText').innerHTML = ME.about.map(function(p){return '<p>'+esc(p)+'</p>'}).join('');
+$('contactText').innerHTML = 'Email me at <a href="mailto:'+esc(ME.email)+'">'+esc(ME.email)+'</a>' + (ME.location ? ' · based in '+esc(ME.location) : '') + '.';
+
+$('pubs').innerHTML = PUBLICATIONS.slice().sort(function(a,b){return b.year-a.year}).map(function(p){
+  return '<div class="item"><h3><a href="'+esc(p.url)+'">'+esc(p.title)+'</a></h3><p class="sub">'+esc(p.authors)+'</p><p class="sub"><i>'+esc(p.venue)+'</i>, '+p.year+'</p></div>';
+}).join('');
+
+$('arts').innerHTML = ARTICLES.slice().sort(function(a,b){return new Date(b.date)-new Date(a.date)}).map(function(a){
+  return '<div class="item"><h3><a href="'+esc(a.url)+'">'+esc(a.title)+'</a></h3><p class="sub">'+fmt(a.date)+'</p><p class="desc">'+esc(a.summary||'')+'</p></div>';
+}).join('') + '<p class="note"><a href="'+esc(ME.medium)+'">Read everything on Medium</a></p>';
+
+$('acts').innerHTML = ACTIVITIES.map(function(a){
+  return '<div class="item"><h3>'+esc(a.title)+'</h3><p class="sub">'+esc(a.period)+'</p><p class="desc">'+esc(a.desc)+'</p></div>';
+}).join('');
+
+// GitHub: loads live from the public API; shows a link if it cannot load
+var gh = 'https://api.github.com/users/' + encodeURIComponent(ME.github);
+Promise.all([fetch(gh).then(function(r){if(!r.ok)throw 0;return r.json()}), fetch(gh+'/repos?per_page=100&sort=updated').then(function(r){if(!r.ok)throw 0;return r.json()})])
+.then(function(res){
+  var u = res[0], repos = res[1].filter(function(r){return !r.fork});
+  $('ghStats').innerHTML = '<span><b>'+u.public_repos+'</b>repositories</span><span><b>'+u.followers+'</b>followers</span><span><a href="'+esc(u.html_url)+'">@'+esc(u.login)+'</a></span>';
+  var pick = FEATURED_REPOS.length ? repos.filter(function(r){return FEATURED_REPOS.indexOf(r.name)>-1})
+    : repos.sort(function(a,b){return b.stargazers_count-a.stargazers_count}).slice(0,6);
+  $('ghRepos').innerHTML = pick.map(function(r){
+    return '<div class="repo"><h3><a href="'+esc(r.html_url)+'">'+esc(r.name)+'</a></h3><p>'+esc(r.description||'No description yet.')+'</p>'+
+      (r.language?'<span class="tag">'+esc(r.language)+'</span> ':'')+'<span class="note">★ '+r.stargazers_count+'</span></div>';
+  }).join('');
+}).catch(function(){
+  $('ghNote').innerHTML = 'Repositories could not be loaded. <a href="https://github.com/'+esc(ME.github)+'">View my GitHub profile</a>.';
+});
+</script>
+</body>
+</html>
