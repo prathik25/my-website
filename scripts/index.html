@@ -41,13 +41,15 @@ h2{font:700 1.7rem/1.2 var(--serif);margin:0 0 1.25rem;color:var(--accent)}
 .repo h3{font:600 1.05rem var(--sans);margin:0 0 .3rem;word-break:break-word}
 .repo p{margin:0 0 .6rem;font-size:.9rem;color:var(--muted)}
 .note{color:var(--muted);font-size:.9rem}
+#skillTags{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:1.5rem}
+.desc.list{padding-left:1.2rem}
 footer{border-top:1px solid var(--line);padding-top:1rem;color:var(--muted);font-size:.85rem}
 </style>
 </head>
 <body>
 <div class="wrap">
 <nav aria-label="Sections">
-  <a href="#about">About</a><a href="experience.html">Experience</a><a href="#publications">Publications</a><a href="#articles">Articles</a>
+  <a href="#about">About</a><a href="#experience">Experience</a><a href="#publications">Publications</a><a href="#articles">Articles</a>
   <a href="#github">GitHub</a><a href="#activities">Activities</a><a href="#contact">Contact</a>
 </nav>
 
@@ -62,6 +64,7 @@ footer{border-top:1px solid var(--line);padding-top:1rem;color:var(--muted);font
 
 <main>
   <section id="about" class="about"><h2>About</h2><div id="aboutText"></div></section>
+  <section id="experience"><h2>Experience</h2><div id="exp"></div><div id="skillTags"></div></section>
   <section id="publications"><h2>Publications</h2><div id="pubs"></div></section>
   <section id="articles"><h2>Articles on Medium</h2><div id="arts"></div></section>
   <section id="github"><h2>GitHub</h2><div id="ghStats" class="stats"></div><div id="ghRepos" class="grid"></div><p class="note" id="ghNote"></p></section>
@@ -104,6 +107,18 @@ var ACTIVITIES = [
   { title: "Hobby or interest", period: "Ongoing", desc: "Photography, chess, hiking, music: whatever you want people to know." }
 ];
 
+var EXPERIENCE = [   // newest first; add points to 'bullets' to describe what you did
+  { title: "NHS Officer", org: "Allen High School", place: "Allen, Texas, United States · On-site", period: "Aug 2026 – Present",
+    bullets: [] },
+  { title: "Quantum Computing Internship", org: "The University of Texas at Dallas · Internship", place: "Dallas, Texas, United States · Hybrid", period: "Jun 2026 – Jul 2026",
+    url: "https://k12.utdallas.edu/research/", urlLabel: "Program page",
+    bullets: [] },
+  { title: "Officer", org: "National Honor Society & National Junior Honor Society (NHS & NJHS) · Seasonal", place: "Allen, Texas, United States · On-site", period: "Aug 2024 – May 2025",
+    bullets: [] }
+];
+
+var SKILLS = ["Leadership", "Team Leadership", "Team Management", "Python", "Quantum Computing"];   // add the rest of your LinkedIn skills here
+
 var FEATURED_REPOS = []; // optional: e.g. ["repo-one","repo-two"]; leave empty to show your top starred repos
 // ================= END OF EDITABLE PART =================
 
@@ -133,6 +148,13 @@ $('arts').innerHTML = ARTICLES.slice().sort(function(a,b){return new Date(b.date
 $('acts').innerHTML = ACTIVITIES.map(function(a){
   return '<div class="item"><h3>'+esc(a.title)+'</h3><p class="sub">'+esc(a.period)+'</p><p class="desc">'+esc(a.desc)+'</p></div>';
 }).join('');
+
+$('exp').innerHTML = EXPERIENCE.map(function(r){
+  return '<div class="item"><h3>'+esc(r.title)+'</h3><p class="sub">'+esc(r.org)+'</p><p class="sub">'+esc(r.period)+' · '+esc(r.place)+'</p>'+
+    ((r.bullets&&r.bullets.length)?'<ul class="desc list">'+r.bullets.map(function(b){return '<li>'+esc(b)+'</li>'}).join('')+'</ul>':'')+
+    (r.url?'<p class="desc"><a href="'+esc(r.url)+'">'+esc(r.urlLabel||r.url)+'</a></p>':'')+'</div>';
+}).join('');
+$('skillTags').innerHTML = SKILLS.map(function(s){return '<span class="tag">'+esc(s)+'</span>'}).join('');
 
 // GitHub: loads live from the public API; shows a link if it cannot load
 var gh = 'https://api.github.com/users/' + encodeURIComponent(ME.github);
